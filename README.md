@@ -6,10 +6,6 @@
 
 Performance audiovisual en tiempo real. Una estrella hecha en **TouchDesigner** reacciona al ritmo de **Strudel**, la performer la controla desde **Open Stage Control** y el **público** vota su color desde el celular.
 
-# Estrellas en vivo
-
-Performance audiovisual en tiempo real. Una estrella hecha en **TouchDesigner** reacciona al ritmo de **Strudel**, la performer la controla desde **Open Stage Control** y el **público** vota su color desde el celular.
-
 ## Qué necesitas en el computador
 
 - [TouchDesigner](https://derivative.ca/download)
