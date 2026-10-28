@@ -36,3 +36,11 @@ Todo corre en un solo computador.
    - QR para proyectar: la URL de PORTS terminada en `/qr/`
 
 El público escanea el QR y vota entre cuatro opciones. Cada ronda dura 45 segundos y el color que gana se aplica a la estrella.
+
+## Consejos para el live performance
+
+- En strudel con los $ o con los sliders, puedes ir haciendo live coding de la musica
+- En Open stage puedes modificar algunos parametros de las estrellas (experimenta tu mismo para generar nuevas sensaciones)
+- En el bridge la gente puede votar y se define, pero desde el desktop (solo lo tendrias tu) tambien puedes cambiar los colores sin necesidad de que haya una votación
+
+### Espero que te guste y date la libertad creativa de generar tu propia performance :D
