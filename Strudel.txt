@@ -1,0 +1,72 @@
+const { visualid } = createParams('visualid')
+
+setcpm(124/4)
+
+// ---- INTRO: flotando ----
+const intro = stack(
+  s("hh*16").bank("RolandTR909").gain(perlin.range(.1,.3)).visualid("drum_hh"),
+  note("<[d4,f4,a4,c5] [bb3,d4,f4,a4]>")
+    .s("triangle").attack(.3).release(1).gain(.25).room(.6)
+    .visualid("harmony"),
+  note("~ a5 ~ [f5 e5]").s("sine").gain(.25).delay(.4).room(.5)
+    .visualid("melody")
+)
+
+// ---- GROOVE: entra el cuerpo ----
+const groove = stack(
+  s("bd ~ ~ bd ~ ~ bd ~").bank("RolandTR909").gain(.95).visualid("drum_bd"),
+  s("~ cp ~ [cp cp]").bank("RolandTR909").gain(.6).visualid("drum_cp"),
+  s("[~ hh]*4").bank("RolandTR909").gain(.4).visualid("drum_hh"),
+  s("~ ~ ~ oh").bank("RolandTR909").gain(.35).visualid("drum_oh"),
+  note("d2 ~ d3 ~ f2 ~ [g2 a2] ~")
+    .s("square").lpf(sine.range(300,900).slow(4)).gain(.55).release(.1),
+  note("<[d4,f4,a4,c5] [bb3,d4,f4,a4] [c4,e4,g4,bb4] [a3,c#4,e4,g4]>")
+    .struct("~ x ~ x").s("sawtooth").lpf(1200).gain(.22).room(.3)
+    .visualid("harmony"),
+  n("<0 2 4 [5 4]>*4").scale("D4:minor").s("triangle").gain(.3).delay(.25)
+    .sometimesBy(.4, x=>x.ply(2))
+    .visualid("melody")
+)
+
+// ---- DROP: todo al frente ----
+const drop = stack(
+  s("bd*4").bank("RolandTR909").gain(1).visualid("drum_bd"),
+  s("~ cp ~ cp").bank("RolandTR909").gain(.85).room(.2).visualid("drum_cp"),
+  s("hh*16").bank("RolandTR909").gain(.3).visualid("drum_hh"),
+  s("[~ oh]*4").bank("RolandTR909").gain(.4).visualid("drum_oh"),
+  note("<d2 bb1 c2 a1>*8")
+    .s("sawtooth").lpf(700).gain(.65).release(.08),
+  note("<[d4,f4,a4,c5] [bb3,d4,f4,a4] [c4,e4,g4,bb4] [a3,c#4,e4,g4]>")
+    .struct("x ~ x x ~ x ~ x").s("sawtooth").lpf(2000).gain(.25).release(.1)
+    .visualid("harmony"),
+  n("0 4 7 9 7 4 [9 11] 7").scale("D5:minor").s("triangle").gain(.4)
+    .room(.4).delay(.2)
+    .visualid("melody")
+)
+
+// ---- QUIEBRE: se cae el piso ----
+const quiebre = stack(
+  s("~ ~ ~ cp").bank("RolandTR909").room(.7).gain(.7).visualid("drum_cp"),
+  note("<[d4,f4,a4,c5] [a3,c#4,e4,g4]>")
+    .s("triangle").attack(.5).release(2).gain(.3).room(.7)
+    .visualid("harmony"),
+  n("<7 [9 7] 4 ~>").scale("D5:minor").s("sine").gain(.3).delay(.5)
+    .visualid("melody")
+)
+
+// ---- ESTRUCTURA ----
+const song = arrange(
+  [4, intro],
+  [8, groove],
+  [8, drop],
+  [4, quiebre],
+  [8, drop]
+)
+
+// Salida doble: audio normal + eventos OSC para TouchDesigner
+$: stack(song, song.osc())
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+https://strudel.cc/#Ly8gUHJlYmFrZSBzY3JpcHQKLy8KLy8gVGhpcyBpcyBjb2RlIHRoYXQgaXMgbG9hZGVkIGJlZm9yZSB5b3VyIHBhdHRlcm4gaXMgcnVuLgovLyBZb3UgY2FuIHVzZSBpdCB0byBkZWZpbmUgY3VzdG9tIGZ1bmN0aW9ucyB0byB1c2UgaW4gYW55IHBhdHRlcm4uCi8vIAovLyBUaGlzIGlzIGFuIGluaXRpYWwgZXhhbXBsZSBzY3JpcHQuIFlvdSBjYW4gZWRpdCBpdCB0byBhZGQgCi8vIHlvdXIgb3duIGZ1bnRpb25zLgovLwovLyBUbyB1c2UgYSBzY3JpcHQgc2hhcmVkIGJ5IHNvbWUgb3RoZXIgdXNlciB5b3UgY2FuIHVzZQovLyB0aGUgaW1wb3J0LWJ1dHRvbiBvciBwYXN0ZSB0aGUgc2NyaXB0IGluIHRoaXMgZWRpdG9yLgoKY29uc3QgcmF0Y2hldCA9IHJlZ2lzdGVyKCdyYXRjaGV0JywgKHBhdCkgPT4gcGF0LnNvbWV0aW1lcyhwbHkoMikpKQoKY29uc3QgeyB2aXN1YWxpZCB9ID0gY3JlYXRlUGFyYW1zKCd2aXN1YWxpZCcpCgpzZXRjcG0oMTI0LzQpCgovLyAtLS0tIElOVFJPOiBmbG90YW5kbyAtLS0tCmNvbnN0IGludHJvID0gc3RhY2soCiAgcygiaGgqMTYiKS5iYW5rKCJSb2xhbmRUUjkwOSIpLmdhaW4ocGVybGluLnJhbmdlKC4xLC4zKSkudmlzdWFsaWQoImRydW1faGgiKSwKICBub3RlKCI8W2Q0LGY0LGE0LGM1XSBbYmIzLGQ0LGY0LGE0XT4iKQogICAgLnMoInRyaWFuZ2xlIikuYXR0YWNrKC4zKS5yZWxlYXNlKDEpLmdhaW4oLjI1KS5yb29tKC42KQogICAgLnZpc3VhbGlkKCJoYXJtb255IiksCiAgbm90ZSgifiBhNSB%2BIFtmNSBlNV0iKS5zKCJzaW5lIikuZ2FpbiguMjUpLmRlbGF5KC40KS5yb29tKC41KQogICAgLnZpc3VhbGlkKCJtZWxvZHkiKQopCgovLyAtLS0tIEdST09WRTogZW50cmEgZWwgY3VlcnBvIC0tLS0KY29uc3QgZ3Jvb3ZlID0gc3RhY2soCiAgcygiYmQgfiB%2BIGJkIH4gfiBiZCB%2BIikuYmFuaygiUm9sYW5kVFI5MDkiKS5nYWluKC45NSkudmlzdWFsaWQoImRydW1fYmQiKSwKICBzKCJ%2BIGNwIH4gW2NwIGNwXSIpLmJhbmsoIlJvbGFuZFRSOTA5IikuZ2FpbiguNikudmlzdWFsaWQoImRydW1fY3AiKSwKICBzKCJbfiBoaF0qNCIpLmJhbmsoIlJvbGFuZFRSOTA5IikuZ2FpbiguNCkudmlzdWFsaWQoImRydW1faGgiKSwKICBzKCJ%2BIH4gfiBvaCIpLmJhbmsoIlJvbGFuZFRSOTA5IikuZ2FpbiguMzUpLnZpc3VhbGlkKCJkcnVtX29oIiksCiAgbm90ZSgiZDIgfiBkMyB%2BIGYyIH4gW2cyIGEyXSB%2BIikKICAgIC5zKCJzcXVhcmUiKS5scGYoc2luZS5yYW5nZSgzMDAsOTAwKS5zbG93KDQpKS5nYWluKC41NSkucmVsZWFzZSguMSksCiAgbm90ZSgiPFtkNCxmNCxhNCxjNV0gW2JiMyxkNCxmNCxhNF0gW2M0LGU0LGc0LGJiNF0gW2EzLGMjNCxlNCxnNF0%2BIikKICAgIC5zdHJ1Y3QoIn4geCB%2BIHgiKS5zKCJzYXd0b290aCIpLmxwZigxMjAwKS5nYWluKC4yMikucm9vbSguMykKICAgIC52aXN1YWxpZCgiaGFybW9ueSIpLAogIG4oIjwwIDIgNCBbNSA0XT4qNCIpLnNjYWxlKCJENDptaW5vciIpLnMoInRyaWFuZ2xlIikuZ2FpbiguMykuZGVsYXkoLjI1KQogICAgLnNvbWV0aW1lc0J5KC40LCB4PT54LnBseSgyKSkKICAgIC52aXN1YWxpZCgibWVsb2R5IikKKQoKLy8gLS0tLSBEUk9QOiB0b2RvIGFsIGZyZW50ZSAtLS0tCmNvbnN0IGRyb3AgPSBzdGFjaygKICBzKCJiZCo0IikuYmFuaygiUm9sYW5kVFI5MDkiKS5nYWluKDEpLnZpc3VhbGlkKCJkcnVtX2JkIiksCiAgcygifiBjcCB%2BIGNwIikuYmFuaygiUm9sYW5kVFI5MDkiKS5nYWluKC44NSkucm9vbSguMikudmlzdWFsaWQoImRydW1fY3AiKSwKICBzKCJoaCoxNiIpLmJhbmsoIlJvbGFuZFRSOTA5IikuZ2FpbiguMykudmlzdWFsaWQoImRydW1faGgiKSwKICBzKCJbfiBvaF0qNCIpLmJhbmsoIlJvbGFuZFRSOTA5IikuZ2FpbiguNCkudmlzdWFsaWQoImRydW1fb2giKSwKICBub3RlKCI8ZDIgYmIxIGMyIGExPio4IikKICAgIC5zKCJzYXd0b290aCIpLmxwZig3MDApLmdhaW4oLjY1KS5yZWxlYXNlKC4wOCksCiAgbm90ZSgiPFtkNCxmNCxhNCxjNV0gW2JiMyxkNCxmNCxhNF0gW2M0LGU0LGc0LGJiNF0gW2EzLGMjNCxlNCxnNF0%2BIikKICAgIC5zdHJ1Y3QoInggfiB4IHggfiB4IH4geCIpLnMoInNhd3Rvb3RoIikubHBmKDIwMDApLmdhaW4oLjI1KS5yZWxlYXNlKC4xKQogICAgLnZpc3VhbGlkKCJoYXJtb255IiksCiAgbigiMCA0IDcgOSA3IDQgWzkgMTFdIDciKS5zY2FsZSgiRDU6bWlub3IiKS5zKCJ0cmlhbmdsZSIpLmdhaW4oLjQpCiAgICAucm9vbSguNCkuZGVsYXkoLjIpCiAgICAudmlzdWFsaWQoIm1lbG9keSIpCikKCi8vIC0tLS0gUVVJRUJSRTogc2UgY2FlIGVsIHBpc28gLS0tLQpjb25zdCBxdWllYnJlID0gc3RhY2soCiAgcygifiB%2BIH4gY3AiKS5iYW5rKCJSb2xhbmRUUjkwOSIpLnJvb20oLjcpLmdhaW4oLjcpLnZpc3VhbGlkKCJkcnVtX2NwIiksCiAgbm90ZSgiPFtkNCxmNCxhNCxjNV0gW2EzLGMjNCxlNCxnNF0%2BIikKICAgIC5zKCJ0cmlhbmdsZSIpLmF0dGFjayguNSkucmVsZWFzZSgyKS5nYWluKC4zKS5yb29tKC43KQogICAgLnZpc3VhbGlkKCJoYXJtb255IiksCiAgbigiPDcgWzkgN10gNCB%2BPiIpLnNjYWxlKCJENTptaW5vciIpLnMoInNpbmUiKS5nYWluKC4zKS5kZWxheSguNSkKICAgIC52aXN1YWxpZCgibWVsb2R5IikKKQoKLy8gLS0tLSBFU1RSVUNUVVJBIC0tLS0KY29uc3Qgc29uZyA9IGFycmFuZ2UoCiAgWzQsIGludHJvXSwKICBbOCwgZ3Jvb3ZlXSwKICBbOCwgZHJvcF0sCiAgWzQsIHF1aWVicmVdLAogIFs4LCBkcm9wXQopCgovLyBTYWxpZGEgZG9ibGU6IGF1ZGlvIG5vcm1hbCArIGV2ZW50b3MgT1NDIHBhcmEgVG91Y2hEZXNpZ25lcgokOiBzdGFjayhzb25nLCBzb25nLm9zYygpKQ%3D%3D
