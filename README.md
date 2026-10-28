@@ -44,3 +44,7 @@ El público escanea el QR y vota entre cuatro opciones. Cada ronda dura 45 segun
 - En el bridge la gente puede votar y se define, pero desde el desktop (solo lo tendrias tu) tambien puedes cambiar los colores sin necesidad de que haya una votación
 
 ### Espero que te guste y date la libertad creativa de generar tu propia performance :D
+
+## pd: Aqui podran encontrar un link a youtube donde veran una demo de lo que puede lograrse con este sistema
+
+## https://youtu.be/Y7j2kONKWdQ
