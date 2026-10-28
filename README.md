@@ -1,12 +1,24 @@
 # el-sonido-de-las-estrellas
 
-### Entrega del proyecto completo del final 
-
 # Estrellas en vivo
 
 Performance audiovisual en tiempo real. Una estrella hecha en **TouchDesigner** reacciona al ritmo de **Strudel**, la performer la controla desde **Open Stage Control** y el **público** vota su color desde el celular.
 
-## Qué necesitas en el computador
+## Sobre la obra
+
+**Intención.** *Estrellas en vivo* explora la vida de una estrella como un proceso que no controla una sola persona. La performer construye el ritmo y la forma de la estrella en tiempo real, mientras el público decide en qué etapa de su vida se encuentra: si nace en una nebulosa, arde como gigante azul, envejece como gigante roja o explota como supernova. La obra busca que la imagen sea el resultado de una negociación entre quien actúa y quienes observan, y que el desorden de las figuras que aparecen con cada sonido haga sentir el espacio como algo vivo e inestable.
+
+**Percepción.** El público percibe la obra por dos vías a la vez. Por la vista y el oído, porque cada golpe del ritmo hace pulsar la estrella y aparecer figuras, de modo que el sonido se "ve". Y por la participación, porque al votar desde el celular ven cómo su decisión, sumada a la de los demás, cambia el color de la estrella con un fundido lento. La espera de cada ronda genera expectativa, y el cambio de color se vuelve un momento compartido por toda la sala.
+
+**Sistema técnico.** La imagen se genera en TouchDesigner. Strudel, desde el navegador, envía por OSC cada evento musical, que dispara pulsos en la estrella y la aparición de figuras. Open Stage Control funciona como la interfaz del performer, con faders y perillas que controlan la expansión, la rotación, las puntas y otros parámetros. Para el público hay un servidor propio en Node.js con socket.io: el público entra escaneando un QR, vota entre cuatro opciones y el servidor cuenta los votos (uno por celular y por ronda) y envía el color ganador a TouchDesigner por OSC/UDP.
+
+## Reflexión después de la performance
+
+Luego de hacer este testeo con un grupo de personas cercanas me dijeron que les gusto mucho el tema y la estetica y que la musica al ser de cierta manera "alocada" hace que la performance se sienta movida y no llegue a sentirse como aburrido o repetitivo, esto tambien es ayudado por el strudel debido a todos los items que puedes mover para cambiar escalas o sonidos.
+
+## Guía para usarlo
+
+### Qué necesitas en el computador
 
 - [TouchDesigner](https://derivative.ca/download)
 - [Open Stage Control](https://openstagecontrol.ammd.net/download/)
